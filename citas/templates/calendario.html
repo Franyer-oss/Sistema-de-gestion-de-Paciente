@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendario de Citas</title>
+
+    <!-- FullCalendar CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@3.2.0/dist/fullcalendar.min.css" rel="stylesheet" />
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- FullCalendar JS -->
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@3.2.0/dist/fullcalendar.min.js"></script>
+        <style>
+        /* Estilo general para la página */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 2em;
+            margin-top: 30px;
+            color: #4CAF50;
+            font-weight: bold;
+        }
+
+        /* Estilo para el contenedor del calendario */
+        #calendar {
+            margin: 0 auto;
+            padding: 20px;
+            max-width: 90%;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Estilo para las cabeceras del calendario */
+        .fc-header-toolbar {
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 10px;
+            padding: 10px;
+        }
+
+        /* Estilo de los botones */
+        .fc-button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .fc-button:hover {
+            background-color: #45a049;
+        }
+
+        /* Personalización de los eventos */
+        .fc-event {
+            border-radius: 5px;
+            font-size: 12px;
+            color: white;
+            padding: 5px;
+        }
+
+        /* Estilos para el color de los eventos según su estado */
+        .fc-event.cancelada {
+            background-color: #ff6f61;
+        }
+
+        .fc-event.completada {
+            background-color: #4CAF50;
+        }
+
+        .fc-event.programada {
+            background-color: #2196F3;
+        }
+
+        /* Estilo del contenedor de la página */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Calendario de Citas</h2>
+    <a href="{% url 'Principal' %}" class="regresar">volver</a>
+    <div id="calendar"></div>
+
+    <script>
+        $(document).ready(function() {
+            // Inicializar FullCalendar
+            $('#calendar').fullCalendar({
+                events: "{% url 'calendario' %}",  // Esta es la URL para obtener los eventos (citas)
+                editable: true,
+                droppable: true,
+                eventRender: function(event, element) {
+                    // Cambiar el color de los eventos según su estado
+                    if (event.estado == "Cancelada") {
+                        element.css("background-color", "red");
+                    } else if (event.estado == "Completada") {
+                        element.css("background-color", "green");
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+<form action = "{% url 'Login' %}" method="POST">
+    {% csrf_token %}
+
+    <label>Usuario:</label>
+    <input type="text" name="username" required>
+
+    <label>Contraseña:</label>
+    <input type="password" name="password" required>
+
+    <button type="submit">Ingresar</button>
+
+    {% if error %}
+        <p style="color:red;">{{ error }}</p>
+    {% endif %}
+    <button type="submit">Guardar</button>
+</form>

@@ -1,0 +1,138 @@
+.mi-app body,
+.mi-app {
+    background-color: rgb(255, 255, 255);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 0;
+    margin: 0;
+    position: relative;
+}
+
+.mi-app ul {
+    list-style: none !important;
+}
+
+.mi-app a {
+    color: #f5f5f5 !important;
+    text-decoration: none !important;
+}
+
+.mi-app .cuadro1 {
+    background-color: #ffffff;
+    padding: 1cqb;
+    text-align: right;
+    z-index: -1;
+    opacity: 0;
+    animation: aparecerEncabezado 2s forwards;
+}
+
+@keyframes aparecerEncabezado {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+.mi-app .cuadro {
+    width: 250px;
+    height: 100vh;
+    background-color: #5092f6;
+    padding: 20px;
+    margin: 0;
+    position: fixed;
+    color: white;
+    left: -150px;
+    animation: aparecer 2s forwards;
+    z-index: 1;
+}
+
+@keyframes aparecer {
+    0% { opacity: 0; left: -150px; }
+    100% { opacity: 1; left: 0; }
+}
+
+.mi-app .cuadro ul {
+    padding: 0 !important;
+}
+
+.mi-app .cuadro li {
+    margin: 10px 0 !important;
+}
+
+.mi-app .cuadro img {
+    display: block !important;
+    width: 900px !important;
+    height: auto !important;
+    margin-bottom: 50px !important;
+}
+
+.mi-app main {
+    background-color: #c8c7f757 !important;
+    flex: 1 !important;
+    padding: 15px !important;
+    margin: 15px 15px 15px 300px !important;
+    border-radius: 5px !important;
+}
+
+.mi-app .panel-cards {
+    display: flex !important;
+    justify-content: center !important;
+}
+
+.mi-app .panel-cards div {
+    width: 100% !important;
+    background: #ffffff !important;
+    padding: 10px 20px !important;
+    margin: 10px !important;
+    border-radius: 5px !important;
+}
+
+.mi-app .panel-cards span {
+    display: block !important;
+    font-size: 50px !important;
+}
+
+.mi-app .section_table {
+    display: flex !important;
+    justify-content: center !important;
+    padding: 10px !important;
+}
+
+.mi-app .section_table div {
+    background: #ffffff !important;
+    width: 1000px !important;
+    margin: 5px !important;
+    border-radius: 5px !important;
+}
+
+.mi-app table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+}
+
+.mi-app th,
+.mi-app td {
+    font-size: 10px !important;
+    padding: 6px !important;
+    border-bottom: solid 1px #626262 !important;
+}
+
+/* Botón base */
+.mi-app .cuadro .sidebar-btn {
+    display: block;           
+    width: 210px;              
+    padding: 10px 15px;       
+    margin-bottom: 10px;      
+    color: #fff;              /* Color del texto */
+    background-color: #5092f6; /* Color inicial del botón */
+    border: none;             
+    border-radius: 4px;       
+    text-align: left;         
+    cursor: pointer;          
+    transition: background-color 0.3s, transform 0.2s; /* Animación suave */
+    text-decoration: none;    
+}
+
+/* Hover */
+.mi-app .cuadro .sidebar-btn:hover {
+    background-color: #4170d4;
+    transform: scale(1.02);
+}
+

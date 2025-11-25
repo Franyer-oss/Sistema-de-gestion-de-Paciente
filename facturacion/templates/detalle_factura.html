@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Detalles de Factura</title>
+</head>
+<body>
+    <h1>Detalles de Factura #{{ factura.ID_Factura }}</h1>
+    <h3>Paciente: {{ factura.Paciente.Nombre }} {{ factura.Paciente.Apellido }}</h3>
+    <h3>Fecha de Emisión: {{ factura.Fecha_Emision }}</h3>
+    <h3>Total: {{ factura.Total }}</h3>
+
+    <h2>Detalles</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Descripción</th>
+                <th>Cantidad</th>
+                <th>Precio Unitario</th>
+                <th>Subtotal</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for detalle in detalles %}
+            <tr>
+                <td>{{ detalle.Descripcion }}</td>
+                <td>{{ detalle.Cantidad }}</td>
+                <td>{{ detalle.Precio_Unitario }}</td>
+                <td>{{ detalle.Subtotal }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h3>Agregar Detalle</h3>
+    <form method="POST">
+        {% csrf_token %}
+        {{ detalle_form.as_p }}
+        <button type="submit">Agregar Detalle</button>
+    </form>
+
+    <a href="{% url 'lista_facturas' %}">Volver a la lista</a>
+</body>
+</html>

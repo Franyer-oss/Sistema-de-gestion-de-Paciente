@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head> 
+    <title>Creación de Paciente</title>
+    {% load static %} 
+    
+    <link rel="stylesheet" href="{% static 'paciente/style.css' %}">
+  </head>  
+  <body>
+    <div class=CreacionPaciente>
+      <form method="POST">
+          {% csrf_token %}
+          <table class="creacion">
+            <thead>
+                <th>
+                    <hi>Crear Paciente</hi>
+                </th>
+            </thead>
+            <tr>
+                <td>
+                    <label>Nombre del paciente:</label><input type="text" name="nombre"><br>
+
+                    <label>Apellido del paciente:</label><input type="text" name="apellido"><br>
+
+                    <label>Tipo Documento</label> 
+                    <select name="Tipo_Documento">
+                        <option value="CC" {% if paciente.Tipo_Documento == 'CC' %}selected{% endif %}>Cédula de Ciudadanía</option>
+                        <option value="TI" {% if paciente.Tipo_Documento == 'TI' %}selected{% endif %}>Tarjeta de Identidad</option>
+                        <option value="CE" {% if paciente.Tipo_Documento == 'CE' %}selected{% endif %}>Cédula de Extranjería</option>
+                        <option value="PA" {% if paciente.Tipo_Documento == 'PA' %}selected{% endif %}>Pasaporte</option>
+                    </select><br>
+
+                    <label>Numero de Documento:</label><input type="number" name="N_documento"><br>
+
+                    <label>Fecha de nacimiento:</label><input type="date" name="F_Nacimiento" ><br>
+
+                    <label>Genero:</label>
+                    <select name="genero">
+                        <option value="M" {% if paciente.Genero == 'M' %}selected{% endif %}>Masculino</option>
+                        <option value="F" {% if paciente.Genero == 'F' %}selected{% endif %}>Femenino</option>
+                        <option value="O" {% if paciente.Genero == 'O' %}selected{% endif %}>Otro</option>
+                    </select><br>
+
+                    <label>Dirección:</label><input type="text" name="direccion"><br>
+
+                    <label>Teléfono:</label><input type="text" name="telefono"><br>
+
+                    <label>Correó:</label><input type="email" name="correo"><br>
+
+                    <label>Estado Civil:</label>
+                    <select name="estadocivil">
+                        <option value="S" {% if paciente.Estado_Civil == 'S' %}selected{% endif %}>Soltero/a</option>
+                        <option value="C" {% if paciente.Estado_Civil == 'C' %}selected{% endif %}>Casado/a</option>
+                        <option value="V" {% if paciente.Estado_Civil == 'V' %}selected{% endif %}>Viudo/a</option>
+                        <option value="D" {% if paciente.Estado_Civil == 'D' %}selected{% endif %}>Divorciado/a</option>
+                    </select><br>
+
+                        <button type="submit">Guardar</button>
+                        <a class="regresar" href="{% url 'ListaPaciente' %}">volver</a>
+                  </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+  </body>
+</html>

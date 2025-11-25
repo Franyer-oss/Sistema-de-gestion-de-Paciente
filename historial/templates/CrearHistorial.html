@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head> 
+    <title>Creación de Paciente</title>
+    {% load static %} 
+    <link rel="stylesheet" href="{% static 'paciente/style.css' %}">
+  </head>  
+  <body>
+    <div class=CreacionPaciente>
+      <form method="POST">
+          {% csrf_token %}
+          <table class="creacion">
+            <thead>
+                <th>
+                    <hi>Crear Paciente</hi>
+                </th>
+            </thead>
+            <tr>
+                <td>
+                    
+                    <label>Fecha de Apertura:</label><input type="date" name="fecha_apertura"><br>
+                    <label for="paciente">Seleccione un paciente:</label>
+                    <select name = "paciente" id = "paciente">
+                        {% for p in pacientes %}
+                        <option value="{{p.ID_Paciente}}">{{p.Nombre}} {{ p.Apellido }}</option>
+                        {% endfor %}
+                    </select><br>
+
+                    <label>Observaciones Generales:</label><input type="text" name="observaciones_generales"><br>
+
+                        <button type="submit">Guardar</button>
+                        <a class="regresar" href="{% url 'ListaHistorial' %}">volver</a>
+                  </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+  </body>
+</html>

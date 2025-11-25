@@ -1,0 +1,60 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lista de Facturas</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-solid-straight/css/uicons-solid-straight.css">
+    <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css">
+    <link rel="stylesheet" href="{% static 'facturacion/style.css' %}">
+    <link rel="stylesheet" href="{% static 'inicio/style.css' %}">
+</head>
+<body class="mi-app">
+    <!-- Menú Lateral -->
+    <aside class="cuadro">
+        <nav>
+            <img src="{% static 'inicio/imagenes/Logo.png' %}" alt="Logo Buena Salud">
+            <ul>
+                 <li><a class="button sidebar-btn" href="{% url 'Principal' %}"><i class="fi fi-ss-home"></i>  Panel de Control</a></li>
+                    <li><a class="button sidebar-btn" href="{% url 'ListaPaciente' %}"><i class="fi fi-ss-user"></i>   Pacientes</a></li>
+                    <li><a class="button sidebar-btn" href="{% url 'listaMedicos' %}"><i class="fi fi-ss-user-md"></i>  Doctores</a></li>
+                    <li><a class="button sidebar-btn" href="{% url 'ListaCitas' %}"><i class="fi fi-ss-calendar"></i>  Citas</a></li>
+                    <li><a class="button sidebar-btn" href="{% url 'ListaHistorial' %}"><i class="fi fi-ss-hospital"></i>  Historias Clínicas</a></li>
+                    <li><a class="button sidebar-btn" href="{% url 'lista_hospitalizaciones' %}"><i class="fi fi-ss-ambulance"></i>  Hospitalizaciones</a></li>
+                    <li><a class="button sidebar-btn" href="{% url 'lista_facturas' %}"><i class="fi fi-ss-file-invoice-dollar"></i>  Facturación</a></li>
+        </nav>
+    </aside>
+
+    <!-- Contenido Principal -->
+    <div class="main-content">
+        <h1>Facturas</h1>
+        <a href="{% url 'crear_factura' %}">Crear nueva factura</a>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Paciente</th>
+                    <th>Fecha de Emisión</th>
+                    <th>Total</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for factura in facturas %}
+                <tr>
+                    <td>{{ factura.ID_Factura }}</td>
+                    <td>{{ factura.Paciente.Nombre }} {{ factura.Paciente.Apellido }}</td>
+                    <td>{{ factura.Fecha_Emision }}</td>
+                    <td>{{ factura.Total }}</td>
+                    <td>
+                        <a href="{% url 'detalle_factura' id=factura.ID_Factura %}">Ver Detalles</a>
+                        <a href="{% url 'actualizar_factura' id=factura.ID_Factura %}">Actualizar</a>
+                        <a href="{% url 'eliminar_factura' id=factura.ID_Factura %}" onclick="return confirm('¿Estás seguro de que quieres eliminar esta factura?')">Eliminar</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

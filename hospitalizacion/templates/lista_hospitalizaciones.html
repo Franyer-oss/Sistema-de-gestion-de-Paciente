@@ -1,0 +1,59 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lista de Hospitalizaciones</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+        <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-solid-straight/css/uicons-solid-straight.css">
+        <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css">
+        <link rel="stylesheet" href="{% static 'hospitalizacion/style.css' %}">
+</head>
+<body class="mi-app">
+    <aside class="cuadro">
+        <nav>
+                <img src="{% static 'inicio/imagenes/Logo.png' %}" alt="Logo Buena Salud">
+                <ul>
+                    <li><a class="button sidebar-btn" href="#"><i class="fi fi-ss-home"></i>  Panel de Control</a></li>
+                    <li><a class="button sidebar-btn" href="{% url 'ListaPaciente' %}"><i class="fi fi-ss-user"></i>   Pacientes</a></li>
+                    <li><a class="button sidebar-btn" href="{% url 'listaMedicos' %}"><i class="fi fi-ss-user-md"></i>  Doctores</a></li>
+                    <li><a class="button sidebar-btn" href="{% url 'ListaCitas' %}"><i class="fi fi-ss-calendar"></i>  Citas</a></li>
+                    <li><a class="button sidebar-btn" href="{% url 'ListaHistorial' %}"><i class="fi fi-ss-hospital"></i>  Historias Clínicas</a></li>
+                    <li><a class="button sidebar-btn" href="{% url 'lista_hospitalizaciones' %}"><i class="fi fi-ss-ambulance"></i>  Hospitalizaciones</a></li>
+                    <li><a class="button sidebar-btn" href="{% url 'lista_facturas' %}"><i class="fi fi-ss-file-invoice-dollar"></i>  Facturación</a></li>
+                </ul>
+            </nav>
+    </aside>
+
+    <div class="main-content">
+        <h1>Hospitalizaciones</h1>
+        <a href="{% url 'crear_hospitalizacion' %}">Crear nueva hospitalización</a>
+        <table>
+            <thead>
+                <tr>
+                    <th>Paciente</th>
+                    <th>Habitación</th>
+                    <th>Fecha de Ingreso</th>
+                    <th>Fecha de Salida</th>
+                    <th>Motivo</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for hospitalizacion in hospitalizaciones %}
+                <tr>
+                    <td>{{ hospitalizacion.Paciente.Nombre }} {{ hospitalizacion.Paciente.Apellido }}</td>
+                    <td>{{ hospitalizacion.Habitacion.Numero }}</td>
+                    <td>{{ hospitalizacion.Fecha_Ingreso }}</td>
+                    <td>{{ hospitalizacion.Fecha_Salida }}</td>
+                    <td>{{ hospitalizacion.Motivo }}</td>
+                    <td>
+                        <a href="{% url 'actualizar_hospitalizacion' hospitalizacion.ID_Hospitalizacion %}">Actualizar</a>
+                        <a href="{% url 'eliminar_hospitalizacion' hospitalizacion.ID_Hospitalizacion %}" onclick="return confirm('¿Estás seguro de eliminar esta hospitalización?')">Eliminar</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

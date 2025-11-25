@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Adjuntar Examen</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'historial/style.css' %}">
+  </head>
+  <body>
+    <div class="AdjuntarExamen">
+      <h1>Adjuntar Examen - {{ paciente.Nombre }} {{ paciente.Apellido }}</h1>
+
+      <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Guardar Examen</button>
+        <a class="regresar" href="{% url 'ListaHistorial' %}">Volver</a>
+      </form>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>SISTEMA DE GESTIÓN DE PACIENTES</title>
+    {% load static %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-solid-straight/css/uicons-solid-straight.css">
+    <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css">
+    <link rel="stylesheet" href="{% static 'inicio/style.css' %}">
+</head>
+<body>
+    <div class="mi-app">
+        <!-- Sidebar -->
+        <aside class="cuadro">
+            <nav>
+                <img src="{% static 'inicio/imagenes/Logo.png' %}" alt="Logo Buena Salud">
+                <ul>
+                    <li><a class="button sidebar-btn" href="{% url 'Principal' %}"><i class="fi fi-ss-home"></i>  Panel de Control</a></li>
+                    <li><a class="button sidebar-btn" href="{% url 'ListaPaciente' %}"><i class="fi fi-ss-user"></i>   Pacientes</a></li>
+                    <li><a class="button sidebar-btn" href="{% url 'listaMedicos' %}"><i class="fi fi-ss-user-md"></i>  Doctores</a></li>
+                    <li><a class="button sidebar-btn" href="{% url 'ListaCitas' %}"><i class="fi fi-ss-calendar"></i>  Citas</a></li>
+                    <li><a class="button sidebar-btn" href="{% url 'ListaHistorial' %}"><i class="fi fi-ss-hospital"></i>  Historias Clínicas</a></li>
+                    <li><a class="button sidebar-btn" href="{% url 'lista_hospitalizaciones' %}"><i class="fi fi-ss-ambulance"></i>  Hospitalizaciones</a></li>
+                    <li><a class="button sidebar-btn" href="{% url 'lista_facturas' %}"><i class="fi fi-ss-file-invoice-dollar"></i>  Facturación</a></li>
+                </ul>
+
+            </nav>
+        </aside>
+
+        <!-- Encabezado -->
+        <aside class="cuadro1">
+            <h1>Panel de Control</h1>
+        </aside>
+
+        <!-- Contenido principal -->
+        <main>
+            <!-- Panel de estadísticas -->
+            <section class="panel-cards">
+                <div>
+                    <p>Pacientes activos</p>
+                    <span>{{ total_pacientes }}</span>
+                </div>
+                <div>
+                    <p>Citas pendientes</p>
+                    <span>{{ citas_pendientes }}</span>
+                </div>
+                <div>
+                    <p>Hospitalizaciones</p>
+                    <span>{{ total_hospitalizacion  }}</span>
+                </div>
+            </section>
+
+            <!-- Tabla de citas -->
+            <section class="section_table">
+                <div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Paciente</th>
+                                <th>Medico</th>
+                                <th>Fecha / Hora de Cita</th>
+                                <th>Estado</th>
+                                <th>Motivo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for i in informacion %}
+                            <tr>
+                                <td><i class="fi fi-ss-user"></i> {{ i.Paciente.Nombre }} {{ i.Paciente.Apellido }}</td>
+                                <td><i class="fi fi-rr-user-md"></i> {{ i.Medico.Nombre }} {{ i.Medico.Apellido }}</td>
+                                <td><i class="fi fi-rr-calendar"></i> {{ i.Fecha }}<br>{{ i.Hora }}</td>
+                                <td>
+                                    {% if i.Estado == "Pendiente" %}
+                                        <i class="fi fi-rr-time-quarter-to"></i>  {{ i.Estado }}
+                                    {% elif i.Estado == "Completada" %}
+                                        <i class="fi fi-ss-check-circle"></i> {{ i.Estado }}
+                                    {% elif i.Estado == "Cancelada" %}
+                                        <i class="fi fi-ss-x"></i> {{ i.Estado }}
+                                    {% elif i.Estado == "Programada" %}
+                                        <i class="fi fi-ss-calendar-day"></i> {{ i.Estado }}
+                                    {% endif %}
+                                </td>
+                                <td><i class="fi fi-ss-person-circle-question"></i> {{ i.Motivo }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+</html>

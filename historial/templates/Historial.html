@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Historias Clínicas</title>
+    {% load static %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-solid-straight/css/uicons-solid-straight.css">
+    <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <link rel="stylesheet" href="{% static 'historial/style.css' %}">
+</head>
+<body class="mi-app">
+    <div class="mi-app">
+        <!-- Sidebar -->
+        <aside class="cuadro">
+            <nav>
+                <img src="{% static 'inicio/imagenes/Logo.png' %}" alt="Logo Buena Salud">
+                <ul>
+                    <li><a class="button sidebar-btn" href="{% url 'Principal' %}"><i class="fi fi-ss-home"></i>  Panel de Control</a></li>
+                    <li><a class="button sidebar-btn" href="{% url 'ListaPaciente' %}"><i class="fi fi-ss-user"></i>   Pacientes</a></li>
+                    <li><a class="button sidebar-btn" href="{% url 'listaMedicos' %}"><i class="fi fi-ss-user-md"></i>  Doctores</a></li>
+                    <li><a class="button sidebar-btn" href="{% url 'ListaCitas' %}"><i class="fi fi-ss-calendar"></i>  Citas</a></li>
+                    <li><a class="button sidebar-btn" href="{% url 'ListaHistorial' %}"><i class="fi fi-ss-hospital"></i>  Historias Clínicas</a></li>
+                    <li><a class="button sidebar-btn" href="{% url 'lista_hospitalizaciones' %}"><i class="fi fi-ss-ambulance"></i>  Hospitalizaciones</a></li>
+                    <li><a class="button sidebar-btn" href="{% url 'lista_facturas' %}"><i class="fi fi-ss-file-invoice-dollar"></i>  Facturación</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Encabezado -->
+        <aside class="cuadro1">
+            <h1>Historias Clínicas</h1>
+        </aside>
+
+        <!-- Contenido principal -->
+        <div class="container">
+            <form method="get" action="">
+                <label for="paciente">Filtrar por paciente:</label>
+                <select name="paciente" id="paciente" class="buscador-paciente">
+                    {% for p in pacientes %}
+                        <option value="{{ p.pk }}" {% if paciente_id and p.pk == paciente_id %}selected{% endif %}>
+                            {{ p.Nombre }} {{ p.Apellido }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </form>
+
+            <a href="{% url 'Principal' %}">volver</a>
+
+            <section>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Paciente</th>
+                            <th>Observaciones Generales</th>
+                            <th>Fecha de Apertura</th>
+                            <th>Diagnósticos</th>
+                            <th></th>
+                            <th><a href="{% url 'CrearHistorial' %}">Añadir historial</a></th>
+                        </tr>
+                    </thead>
+                    {% for h in listahistorial %}
+                        <tr>
+                            <td>{{h.Paciente.Nombre}} {{h.Paciente.Apellido}}
+                                <a class="eliminar" href="{% url 'VerExamenes' h.Paciente_id%}">ver más</a>
+                            </td>
+                            <td>{{h.Observaciones_Generales}}</td>
+                            <td>{{h.Fecha_Apertura}}</td>
+                            <td>
+                                {% for d in h.diagnostico_set.all %}
+                                    • {{ d.Descripcion }} <br>
+                                {% empty %}
+                                    <em>Sin diagnósticos</em>
+                                {% endfor %}
+                            </td>
+                            <td>
+                                <a class="editar" href="{% url 'EditarHistorial' h.ID_Historia%}">editar</a>
+                            </td>
+                            <td>
+                                <a class="eliminar" href="{% url 'EliminarHistorial' h.ID_Historia%}">eliminar</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </section>
+
+            <!-- Exámenes de Laboratorio -->
+            <h2>Exámenes de Laboratorio</h2>
+            <section>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Paciente</th>
+                            <th>Tipo de Examen</th>
+                            <th>Resultado</th>
+                            <th>Medico asociado</th>
+                            <th>Imágenes de Laboratorio</th>
+                        </tr>
+                    </thead>
+                    {% for e in examenes %}
+                        <tr>
+                            <td>{{e.Paciente.Nombre}} {{e.Paciente.Apellido}}</td>
+                            <td>{{e.Tipo_Examen}}</td>
+                            <td>{{e.Resultado}}</td>
+                            <td>{{e.Paciente.Medico}} {{e.Paciente.Medico}}</td>
+                            <td>
+                                {% if e.Archivo %}
+                                    <a href="{{ e.Archivo.url }}" target="_blank">Ver archivo</a>
+                                {% else %}
+                                    Sin archivo
+                                {% endif %}
+                            </td>
+                            <td>
+                                <a class="editar" href="{% url 'EditarHistorial' e.ID_Examen%}">editar</a>
+                            </td>
+                            <td>
+                                <a href="{% url 'AdjuntarExamen' e.ID_Examen %}">Adjuntar Examen</a>
+                            </td>
+                            <td>
+                                <a href="{% url 'EliminarExamen' e.ID_Examen %}">Eliminar Examen</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </section>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('.buscador-paciente').select2({
+                placeholder: "Buscar paciente...",
+                allowClear: true,
+                width: '100%'
+            }).on('change', function() {
+                this.form.submit();
+            });
+        });
+    </script>
+</body>
+</html>

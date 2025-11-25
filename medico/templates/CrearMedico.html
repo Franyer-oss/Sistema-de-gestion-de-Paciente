@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Crear Médico y Área Médica</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'medico/style.css' %}">
+  </head>
+  <body>
+    <div class="CrearMedico">
+      <form method="POST">
+          {% csrf_token %}
+          <h1>Crear Médico</h1>
+          <table class="creacion">
+            <thead>
+                <tr><th colspan="2">Datos del Médico</th></tr>
+            </thead>
+            <tr>
+                <td><label>Nombre del médico:</label></td>
+                <td><input type="text" name="nombre" required></td>
+            </tr>
+            <tr>
+                <td><label>Apellido del médico:</label></td>
+                <td><input type="text" name="apellido" required></td>
+            </tr>
+            <tr>
+                <td><label>Especialidad:</label></td>
+                <td><input type="text" name="especialidad" required></td>
+            </tr>
+            <tr>
+                <td><label>Teléfono:</label></td>
+                <td><input type="text" name="telefono" required></td>
+            </tr>
+            <tr>
+                <td><label>Correo:</label></td>
+                <td><input type="email" name="correo" required></td>
+            </tr>
+
+            <thead>
+                <tr><th colspan="2">Área Médica</th></tr>
+            </thead>
+            <tr>
+                <td><label>Selecciona el área médica:</label></td>
+                <td>
+                    <select name="area">
+                        {% for area in areas %}
+                            <option value="{{ area.ID_Area }}">{{ area.Nombre_Area }}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="2"><button type="submit">Guardar</button></td>
+            </tr>
+          </table>
+      </form>
+      <a href="{% url 'ListaMedicos' %}">Volver</a>
+    </div>
+  </body>
+</html>

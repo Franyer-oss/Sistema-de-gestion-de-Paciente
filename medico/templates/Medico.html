@@ -1,0 +1,67 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>MEDICOS</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+        <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-solid-straight/css/uicons-solid-straight.css">
+        <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css">
+        <link rel="stylesheet" href="{% static 'inicio/style.css' %}">
+    </head>
+
+    <body class="mi-app">
+        
+        <!-- ⭐ MENÚ LATERAL ANIMADO ⭐ -->
+        <aside class="cuadro">
+            <nav>
+                <img src="{% static 'inicio/imagenes/Logo.png' %}" alt="Logo Buena Salud">
+                <ul>
+                     <li><a class="button sidebar-btn" href="#"><i class="fi fi-ss-home"></i>  Panel de Control</a></li>
+                    <li><a class="button sidebar-btn" href="{% url 'ListaPaciente' %}"><i class="fi fi-ss-user"></i>   Pacientes</a></li>
+                    <li><a class="button sidebar-btn" href="{% url 'listaMedicos' %}"><i class="fi fi-ss-user-md"></i>  Doctores</a></li>
+                    <li><a class="button sidebar-btn" href="{% url 'ListaCitas' %}"><i class="fi fi-ss-calendar"></i>  Citas</a></li>
+                    <li><a class="button sidebar-btn" href="{% url 'ListaHistorial' %}"><i class="fi fi-ss-hospital"></i>  Historias Clínicas</a></li>
+                    <li><a class="button sidebar-btn" href="{% url 'lista_hospitalizaciones' %}"><i class="fi fi-ss-ambulance"></i>  Hospitalizaciones</a></li>
+                    <li><a class="button sidebar-btn" href="{% url 'lista_facturas' %}"><i class="fi fi-ss-file-invoice-dollar"></i>  Facturación</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- ⭐ CONTENIDO PRINCIPAL ⭐ -->
+        <div style="margin-left: 270px; padding: 20px;">
+            <h1>Medicos</h1>
+            <a href="{% url 'Principal' %}" class="regresar">volver</a>
+
+            <div class="tablecontainer">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Apellido</th>
+                            <th>Especialidad</th>
+                            <th>Área</th>
+                            <th>Correo</th>
+                            <th>Teléfono</th>
+                            <th></th>
+                            <th></th>
+                            <th><a href="{% url 'CreateMedico' %}">Añadir Medico</a></th>
+                        </tr>
+                    </thead>
+                    {% for m in medicos %}
+                    <tr>
+                        <td>{{m.Nombre}}</td>
+                        <td>{{m.Apellido}}</td>
+                        <td>{{m.Especialidad}}</td>
+                        <td>{{m.Area.Nombre_Area}}</td>
+                        <td>{{m.Telefono}}</td>
+                        <td>{{m.Correo}}</td>
+                        <td><a class="editar" href="{% url 'EditMedico' m.ID_Medico %}">editar</a></td>
+                        <td><a class="eliminar" href="{% url 'DeleteMedico' m.ID_Medico %}" onclick="return confirm('¿Estas seguro de eliminar a {{m.Nombre}} {{m.Apellido}}?');">eliminar</a></td>
+                        
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </body>
+<html>

@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Actualizar Hospitalización</title>
+    <link rel="stylesheet" href="{% static 'hospitalizacion/style.css' %}">
+</head>
+<body class="mi-app">
+    <aside class="cuadro">
+        <nav>
+                <img src="{% static 'inicio/imagenes/Logo.png' %}" alt="Logo Buena Salud">
+                <ul>
+                    <li><a class="button sidebar-btn" href="{% url 'Principal' %}"><i class="fi fi-ss-home"></i>  Panel de Control</a></li>
+                    <li><a class="button sidebar-btn" href="{% url 'ListaPaciente' %}"><i class="fi fi-ss-user"></i>   Pacientes</a></li>
+                    <li><a class="button sidebar-btn" href="{% url 'listaMedicos' %}"><i class="fi fi-ss-user-md"></i>  Doctores</a></li>
+                    <li><a class="button sidebar-btn" href="{% url 'ListaCitas' %}"><i class="fi fi-ss-calendar"></i>  Citas</a></li>
+                    <li><a class="button sidebar-btn" href="{% url 'ListaHistorial' %}"><i class="fi fi-ss-hospital"></i>  Historias Clínicas</a></li>
+                    <li><a class="button sidebar-btn" href="#"><i class="fi fi-ss-ambulance"></i>  Hospitalizaciones</a></li>
+                    <li><a class="button sidebar-btn" href="#"><i class="fi fi-ss-file-invoice-dollar"></i>  Facturación</a></li>
+                </ul>
+            </nav>
+    </aside>
+
+    <div class="main-content">
+        <h1>Actualizar Hospitalización</h1>
+        <form method="POST">
+            {% csrf_token %}
+            <label for="paciente">Paciente:</label>
+            <select name="paciente" required>
+                {% for paciente in pacientes %}
+                <option value="{{ paciente.id }}" {% if paciente.id == hospitalizacion.Paciente.id %}selected{% endif %}>
+                    {{ paciente.Nombre }} {{ paciente.Apellido }}
+                </option>
+                {% endfor %}
+            </select>
+
+            <label for="habitacion">Habitación:</label>
+            <select name="habitacion" required>
+                {% for habitacion in habitaciones %}
+                <option value="{{ habitacion.id }}" {% if habitacion.id == hospitalizacion.Habitacion.id %}selected{% endif %}>
+                    {{ habitacion.Numero }} - {{ habitacion.Tipo }}
+                </option>
+                {% endfor %}
+            </select>
+
+            <label for="fecha_salida">Fecha de Salida:</label>
+            <input type="date" name="fecha_salida" value="{{ hospitalizacion.Fecha_Salida }}">
+
+            <label for="motivo">Motivo:</label>
+            <textarea name="motivo" required>{{ hospitalizacion.Motivo }}</textarea>
+
+            <button type="submit">Actualizar Hospitalización</button>
+        </form>
+    </div>
+</body>
+</html>

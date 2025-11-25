@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head> 
+    <title>Edición de pacientes</title>
+    {% load static %} 
+    <link rel="stylesheet" href="{% static 'paciente/style.css' %}">
+  </head>  
+  <body>
+    <div class=EditarPaciente>
+        <form method="POST">
+            {% csrf_token %}
+            <table class="edicion">
+                <thead>
+                    <th>
+                        <hi>Editar Paciente</hi>
+                    </th>
+                </thead>
+                <tr>
+                    <td>
+                        <label>Nombre del paciente:</label><input type="text" name="nombre" value="{{ pacientes.Nombre }}"><br>
+
+                        <label>Apellido del paciente:</label><input type="text" name="apellido" value="{{ pacientes.Apellido }}"><br>
+
+                        <label>Tipo Documento</label> 
+                        <select name="T_Documento">
+                            {% for c, n in tipo_documentos %}
+                                <option value="{{c}}" {% if Tipo_Documento == c %}selected{% endif%}>{{ n }}</option>
+                            {%endfor%}
+                        </select><br>
+
+                        <label>Numero de Documento:</label><input type="number" name="N_documento" value="{{pacientes.Numero_Documento}}"><br>
+
+                        <label>Fecha de nacimiento:</label><input type="date" name="F_Nacimiento" value="{{pacientes.Fecha_Nacimiento|date:'Y-m-d'}}"><br>
+
+                        <label>Genero:</label>
+                        <select name="genero">
+                            {% for c, n in genero %}
+                                <option value="{{ c }}" {% if genero == c %}selected{% endif%}>{{n}}</option>
+                            {%endfor%}
+                        </select><br>
+                    
+                        <label>Dirección:</label><input type="text" name="direccion" value="{{pacientes.Direccion}}"><br>
+
+                        <label>Teléfono:</label><input type="text" name="telefono" value="{{pacientes.Telefono}}"><br>
+
+                        <label>Correó:</label><input type="email" name="correo" value="{{pacientes.Correo}}"><br>
+
+                        <label>Estado Civil:</label>
+                        <select name="estadocivil">
+                            {% for c, n in estado_civil %}
+                                <option value="{{ c }}" {% if estado_civil == c %}selected{% endif%}>{{ n }}</option>
+                            {%endfor%}
+                        </select><br>
+                        <div class="botones">
+                        <button type="submit">Guardar</button>
+                        <a class="regresar" href="{% url 'ListaPaciente' %}">volver</a>
+                        
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+  </body>
+</html>

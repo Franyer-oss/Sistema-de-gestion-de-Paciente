@@ -1,0 +1,146 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+    color: #007BFF;
+}
+
+a:hover {
+    color: #0056b3;
+}
+
+h1, h2, h3 {
+    color: #2c3e50;
+}
+
+.container {
+    width: 80%;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table th, table td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+table th {
+    background-color: #3498db;
+    color: #fff;
+}
+
+table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+table tr:hover {
+    background-color: #e9ecef;
+}
+
+/* Menú Lateral */
+.mi-app .cuadro {
+    width: 250px;
+    height: 100vh;
+    background-color: #5092f6;
+    padding: 10px;
+    margin: 0;
+    position: fixed;
+    color: white;
+    left: 0;
+    animation: aparecer 0.8s forwards;
+    z-index: 1;
+}
+
+@keyframes aparecer {
+    0% { opacity: 0; left: -150px; }
+    100% { opacity: 1; left: 0; }
+}
+
+.mi-app .cuadro ul {
+    padding: 0 !important;
+}
+
+.mi-app .cuadro li {
+    margin: 10px 0 !important;
+    list-style: none;
+}
+
+.mi-app .cuadro img {
+    display: block !important;
+    width: 180px !important;
+    height: auto !important;
+    margin-bottom: 50px !important;
+}
+
+.mi-app .cuadro .sidebar-btn {
+    display: block;           
+    width: 210px;             
+    padding: 10px 15px;       
+    margin-bottom: 10px;      
+    color: #fff;              
+    background-color: #5092f6; 
+    border: none;             
+    border-radius: 4px;       
+    text-align: left;         
+    cursor: pointer;          
+    transition: background-color 0.3s, transform 0.2s;
+    text-decoration: none;    
+}
+
+.mi-app .cuadro .sidebar-btn:hover {
+    background-color: #4170d4;
+    width: 200px;
+    transform: scale(1.02);
+}
+
+/* Contenido Principal */
+.main-content {
+    margin-left: 270px; 
+    padding: 20px;
+}
+
+table {
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+table th, table td {
+    text-align: left;
+    padding: 8px;
+    font-size: 14px;
+}
+
+table th {
+    background-color: #4f80f2;
+    color: white;
+}
+
+table tr:nth-child(even) { background-color: #c8c8c8; }
+table tr:nth-child(odd) { background-color: #ffffff; }
+
+footer {
+    margin-top: 40px;
+    text-align: center;
+}
+
+footer a {
+    display: inline-block;
+    margin-top: 10px;
+}

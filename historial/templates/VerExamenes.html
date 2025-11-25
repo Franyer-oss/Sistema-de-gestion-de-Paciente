@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>PACIENTES</title>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'historial/style.css' %}">
+    </head>
+    <body>
+        <h1>Pacientes</h1>
+        <a href="{% url 'Principal' %}">volver</a>
+        <div class="tablecontainer">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Paciente</th>
+                        <th>Tipo de Examen</th>
+                        <th>Resultado</th>
+                        <th>Medico asociado</th>
+                        <th>Imagenes de Laboratorio</th>
+                        
+                    </tr>
+                </thead>
+                {%for e in Examenes%}
+                
+                <td>
+                    {{e.Paciente.Nombre}} {{e.Paciente.Apellido}}
+                </td>
+                <td>{{e.Tipo_Examen}}</td>
+                <td>{{e.Resultado}}</td>
+                <td>{{e.Paciente.Medico}} {{e.Paciente.Medico}}</td>
+                <td>
+                    {% if e.Archivo %}
+                        <a href="{{ e.Archivo.url }}" target="_blank">Ver archivo</a>
+                    {% else %}
+                        Sin archivo
+                    {% endif %}
+                </td>
+                <td>
+                    <a class= "editar" href="{% url 'EditarHistorial' e.ID_Examen%}">editar</a>
+                </td>
+                <td>
+                    <a href="{% url 'AdjuntarExamen' e.ID_Examen %}">Adjuntar Examen</a>
+
+                </td>
+                
+                </tr>
+                {%endfor%}
+            </table>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Actualizar Factura</title>
+</head>
+<body>
+    <h1>Actualizar Factura #{{ factura.ID_Factura }}</h1>
+    <form method="POST">
+        {% csrf_token %}
+        {{ factura_form.as_p }}
+        <button type="submit">Actualizar Factura</button>
+    </form>
+    <a href="{% url 'lista_facturas' %}">Volver a la lista</a>
+</body>
+</html>

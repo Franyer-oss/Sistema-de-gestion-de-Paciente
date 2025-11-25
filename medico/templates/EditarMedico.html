@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Editar Médico y Área Médica</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'medico/style.css' %}">
+  </head>
+  <body>
+    <div class="EditarMedico">
+        <form method="POST">
+            {% csrf_token %}
+            <h1>Editar Médico</h1>
+            <table class="edicion">
+                <thead>
+                    <tr><th colspan="2">Datos del Médico</th></tr>
+                </thead>
+                <tr>
+                    <td><label>Nombre del médico:</label></td>
+                    <td><input type="text" name="nombre" value="{{ medico.Nombre }}" required></td>
+                </tr>
+                <tr>
+                    <td><label>Apellido del médico:</label></td>
+                    <td><input type="text" name="apellido" value="{{ medico.Apellido }}" required></td>
+                </tr>
+                <tr>
+                    <td><label>Especialidad:</label></td>
+                    <td><input type="text" name="especialidad" value="{{ medico.Especialidad }}" required></td>
+                </tr>
+                <tr>
+                    <td><label>Teléfono:</label></td>
+                    <td><input type="text" name="telefono" value="{{ medico.Telefono }}" required></td>
+                </tr>
+                <tr>
+                    <td><label>Correo:</label></td>
+                    <td><input type="email" name="correo" value="{{ medico.Correo }}" required></td>
+                </tr>
+
+                <thead>
+                    <tr><th colspan="2">Área Médica</th></tr>
+                </thead>
+                <tr>
+                    <td><label>Selecciona el área médica:</label></td>
+                    <td>
+                        <select name="area">
+                            {% for area in areas %}
+                                <option value="{{ area.ID_Area }}" {% if area.ID_Area == medico.Area.ID_Area %}selected{% endif %}>{{ area.Nombre_Area }}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2"><button type="submit">Guardar</button></td>
+                </tr>
+            </table>
+        </form>
+        <a href="{% url 'listaMedicos' %}">Volver</a>
+    </div>
+  </body>
+</html>

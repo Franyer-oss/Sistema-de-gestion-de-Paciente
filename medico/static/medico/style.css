@@ -1,0 +1,124 @@
+body {
+    background-color: rgb(237, 240, 244);
+    font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
+}
+
+.mi-app .cuadro {
+    width: 250px;
+    height: 100vh;
+    background-color: #5092f6;
+    padding: 10px;
+    margin: 0;
+    position: fixed;
+    color: white;
+    left: -150px;
+    animation: aparecer 0.8s forwards;
+    z-index: 1;
+}
+
+@keyframes aparecer {
+    0% { opacity: 0; left: -150px; }
+    100% { opacity: 1; left: 0; }
+}
+
+.mi-app .cuadro ul {
+    padding: 0 !important;
+}
+
+.mi-app .cuadro li {
+    margin: 10px 0 !important;
+    list-style: none;
+}
+
+.mi-app .cuadro img {
+    display: block !important;
+    width: 180px !important;
+    height: auto !important;
+    margin-bottom: 50px !important;
+}
+
+.mi-app .cuadro .sidebar-btn {
+    display: block;           
+    width: 210px;             
+    padding: 10px 15px;       
+    margin-bottom: 10px;      
+    color: #fff;              /* Color del texto */
+    background-color: #5092f6; /* Color inicial del botón */
+    border: none;             
+    border-radius: 4px;       
+    text-align: left;         
+    cursor: pointer;          
+    transition: background-color 0.3s, transform 0.2s; /* Animación suave */
+    text-decoration: none;    
+}
+
+/* Hover */
+.mi-app .cuadro .sidebar-btn:hover {
+    background-color: #4170d4;
+    width: 200px;
+    transform: scale(1.02);
+}
+
+.edicion {
+    border-radius: 15px;
+    width: 400px;
+    padding: 20px 30px;
+    box-shadow: 0 0 100px rgba(6, 95, 236, 0.445);
+    margin-left: auto;
+    margin-right: auto;
+    
+}
+.creacion {
+    border-radius: 15px;
+    width: 400px;
+    padding: 20px 30px;
+    box-shadow: 0 0 100px rgba(6, 95, 236, 0.445);
+    margin-left: auto;
+    margin-right: auto;
+    
+}
+table {
+  border-collapse: collapse;
+  width: auto;
+  border-radius: 10px;       /* 👈 Bordes redondeados */
+  overflow: hidden;          /* 👈 Hace que el fondo respete el redondeado */
+
+}
+
+th, td {
+  text-align: left;
+  padding: 8px;
+  font-size: 12px;
+
+}
+
+tr:nth-child(even){background-color: #c8c8c8}
+tr:nth-child(odd){background-color: #ffffff}
+th {
+  background-color: #4f80f2;
+  color: white; 
+}
+
+.botones{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.regresar{
+    background-color: #4f80f2;
+    color: #ffffff;
+    padding: 5px 10px;
+    text-decoration: none;
+    border-radius: 5px;
+    position: right;
+}
+
+
+
+
+.tablecontainer {
+    overflow-x: auto;
+    width: auto;
+    table-layout: auto;
+}

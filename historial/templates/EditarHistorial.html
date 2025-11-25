@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Editar Historia Clínica</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'historial/style.css' %}">
+  </head>
+  <body>
+    <div class="EditarHistorial">
+      <h1>Historia Clínica de {{ historial.Paciente.Nombre }} {{ historial.Paciente.Apellido }}</h1>
+
+      <h2>Datos Generales</h2>
+      <form method="POST">
+        {% csrf_token %}
+        <label><strong>Médico responsable:</strong></label><br>
+        <select name="medico" required>
+          <option value="">Seleccione un médico</option>
+          {% for m in medicos %}
+            <option value="{{ m.ID_Medico }}" {% if historial.Medico and historial.Medico.ID_Medico == m.ID_Medico %}selected{% endif %}>
+              {{ m.Nombre }} {{ m.Apellido }}
+            </option>
+          {% endfor %}
+        </select><br><br>
+
+        <label><strong>Fecha de Apertura:</strong></label><br>
+        <input type="date" name="fecha_apertura" value="{{ historial.Fecha_Apertura|date:'Y-m-d' }}"><br><br>
+
+        <label><strong>Observaciones:</strong></label><br>
+        <textarea name="observaciones" rows="4" cols="50">{{ historial.Observaciones_Generales }}</textarea><br><br>
+
+        <input type="hidden" name="formulario" value="historial">
+
+        <button type="submit">Guardar cambios</button>
+
+      </form>
+
+      <hr>
+
+      <h2>Diagnósticos</h2>
+      <table class="tabla">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Descripción</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for d in diagnosticos %}
+          <tr>
+            <td>{{ d.ID_Diagnostico }}</td>
+            <td>{{ d.Descripcion }}</td>
+            <td>
+              <!-- Formulario para eliminar el diagnóstico -->
+              <form method="POST" action="{% url 'EliminarDiagnostico' id=d.ID_Diagnostico %}">
+                {% csrf_token %}
+                <button type="submit" class="btn-eliminar">Eliminar</button>
+              </form>
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="2">No hay diagnósticos registrados.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <h3>Agregar nuevo diagnóstico</h3>
+      <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        
+        <input type="hidden" name="formulario" value="diagnostico">
+
+        <button type="submit">Guardar diagnóstico</button>
+      </form>
+
+      <a class="boton" href="{% url 'AdjuntarExamen' historial.Paciente.ID_Paciente %}">Adjuntar nuevo examen</a><br>
+      <a class="regresar" href="{% url 'ListaHistorial' %}">Volver</a>
+    </div>
+  </body>
+</html>
