@@ -14,8 +14,8 @@
     <!-- FullCalendar JS -->
     <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@3.2.0/dist/fullcalendar.min.js"></script>
-        <style>
-        /* Estilo general para la página */
+
+    <style>
         body {
             font-family: 'Arial', sans-serif;
             margin: 0;
@@ -32,17 +32,27 @@
             font-weight: bold;
         }
 
-        /* Estilo para el contenedor del calendario */
+        .regresar {
+            display: block;
+            margin: 10px auto;
+            width: 120px;
+            text-align: center;
+            padding: 8px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
         #calendar {
             margin: 0 auto;
             padding: 20px;
             max-width: 90%;
             background-color: white;
             border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
 
-        /* Estilo para las cabeceras del calendario */
         .fc-header-toolbar {
             background-color: #4CAF50;
             color: white;
@@ -50,7 +60,6 @@
             padding: 10px;
         }
 
-        /* Estilo de los botones */
         .fc-button {
             background-color: #4CAF50;
             border: none;
@@ -65,56 +74,169 @@
             background-color: #45a049;
         }
 
-        /* Personalización de los eventos */
-        .fc-event {
-            border-radius: 5px;
-            font-size: 12px;
-            color: white;
+        .fc-event.cancelada { background-color: #ff6f61; }
+        .fc-event.completada { background-color: #4CAF50; }
+        .fc-event.programada { background-color: #2196F3; }
+
+        /* Modal */
+        #citaModal {
+            display: none;
+            position: fixed;
+            top:0; left:0;
+            width:100%; height:100%;
+            background: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        #modalContent {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 400px;
+            max-width: 90%;
+        }
+
+        #modalContent input, #modalContent textarea, #modalContent select {
+            width: 100%;
+            margin-bottom: 10px;
             padding: 5px;
         }
 
-        /* Estilos para el color de los eventos según su estado */
-        .fc-event.cancelada {
-            background-color: #ff6f61;
+        #modalContent button {
+            margin: 5px;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            color: white;
         }
 
-        .fc-event.completada {
-            background-color: #4CAF50;
-        }
+        #saveBtn { background-color: #4CAF50; }
+        #deleteBtn { background-color: #ff6f61; }
+        #closeBtn { background-color: #2196F3; }
 
-        .fc-event.programada {
-            background-color: #2196F3;
-        }
-
-        /* Estilo del contenedor de la página */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
     </style>
 </head>
 <body>
     <h2>Calendario de Citas</h2>
-    <a href="{% url 'Principal' %}" class="regresar">volver</a>
+    <a href="{% url 'Principal' %}" class="regresar">Volver</a>
     <div id="calendar"></div>
 
+    <!-- Modal CRUD -->
+    <div id="citaModal">
+        <div id="modalContent">
+            <h3 id="modalTitle"></h3>
+            <input type="hidden" id="citaId">
+            <label>Paciente:</label>
+            <input type="text" id="Paciente">
+            <label>Medico:</label>
+            <input type="text" id="Medico">
+            <label>Fecha:</label>
+            <input type="date" id="fecha">
+            <label>Hora:</label>
+            <input type="time" id="hora">
+            <label>Motivo:</label>
+            <textarea id="Motivo"></textarea>
+            <label>Estado:</label>
+            <select id="Estado">
+                <option value="Programada">Programada</option>
+                <option value="Completada">Completada</option>
+                <option value="Cancelada">Cancelada</option>
+            </select>
+            <div>
+                <button id="saveBtn">Guardar</button>
+                <button id="deleteBtn">Eliminar</button>
+                <button id="closeBtn">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
     <script>
-        $(document).ready(function() {
-            // Inicializar FullCalendar
-            $('#calendar').fullCalendar({
-                events: "{% url 'calendario' %}",  // Esta es la URL para obtener los eventos (citas)
-                editable: true,
-                droppable: true,
-                eventRender: function(event, element) {
-                    // Cambiar el color de los eventos según su estado
-                    if (event.estado == "Cancelada") {
-                        element.css("background-color", "red");
-                    } else if (event.estado == "Completada") {
-                        element.css("background-color", "green");
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
                     }
                 }
+            }
+            return cookieValue;
+        }
+
+        const csrftoken = getCookie('csrftoken');
+
+        $(document).ready(function() {
+            $('#calendar').fullCalendar({
+                events: "{% url 'calendario' %}",
+                editable: true,
+                selectable: true,
+                select: function(info) {
+                    // Crear cita
+                    $('#modalTitle').text('Crear Cita');
+                    $('#citaId').val('');
+                    $('#Paciente').val('');
+                    $('#Medico').val('');
+                    $('#fecha').val(info.start.format('YYYY-MM-DD'));
+                    $('#hora').val(info.start.format('HH:mm'));
+                    $('#Motivo').val('');
+                    $('#Estado').val('Programada');
+                    $('#deleteBtn').hide();
+                    $('#citaModal').show();
+                },
+                eventClick: function(event) {
+                    // Editar cita
+                    $('#modalTitle').text('Editar Cita');
+                    $('#citaId').val(event.id);
+                    $('#Paciente').val(event.title.split(" con ")[0]);
+                    $('#Medico').val(event.title.split(" con ")[1]);
+                    $('#fecha').val(event.start.format('YYYY-MM-DD'));
+                    $('#hora').val(event.start.format('HH:mm'));
+                    $('#Motivo').val(event.description);
+                    $('#Estado').val(event.estado);
+                    $('#deleteBtn').show();
+                    $('#citaModal').show();
+                },
+                eventRender: function(event, element) {
+                    if (event.estado == "Cancelada") element.css("background-color","red");
+                    else if (event.estado == "Completada") element.css("background-color","green");
+                }
             });
+
+            // Botones del modal
+            $('#saveBtn').click(function() {
+                let citaId = $('#citaId').val();
+                let data = {
+                    'Paciente': $('#Paciente').val(),
+                    'Medico': $('#Medico').val(),
+                    'Fecha': $('#fecha').val(),
+                    'Hora': $('#hora').val(),
+                    'Motivo': $('#Motivo').val(),
+                    'Estado': $('#Estado').val(),
+                    'csrfmiddlewaretoken': csrftoken
+                };
+                let url = citaId ? `/citas/actualizar_cita/${citaId}/` : `/citas/crear_cita/`;
+                $.post(url, data, function(response) {
+                    $('#citaModal').hide();
+                    $('#calendar').fullCalendar('refetchEvents');
+                });
+            });
+
+            $('#deleteBtn').click(function() {
+                let citaId = $('#citaId').val();
+                if(confirm('¿Seguro que deseas eliminar esta cita?')) {
+                    $.post(`/citas/eliminar_cita/${citaId}/`, {'csrfmiddlewaretoken': csrftoken}, function(response){
+                        $('#citaModal').hide();
+                        $('#calendar').fullCalendar('refetchEvents');
+                    });
+                }
+            });
+
+            $('#closeBtn').click(function() { $('#citaModal').hide(); });
         });
     </script>
 </body>

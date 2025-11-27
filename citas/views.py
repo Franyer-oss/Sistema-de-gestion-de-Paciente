@@ -1,7 +1,9 @@
 from django.shortcuts import render
 from django.http import JsonResponse
-from .models import Cita
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
+from .models import Cita
+import json
 
 @login_required
 def ListaCitas(request):
@@ -9,21 +11,16 @@ def ListaCitas(request):
 
 @login_required
 def calendario(request):
-    # Aquí obtenemos todas las citas
     citas = Cita.objects.all()
-
-    # Convertimos las citas a un formato que FullCalendar pueda entender (en este caso, un JSON)
     eventos = []
     for cita in citas:
-        evento = {
+        eventos.append({
+            'id': cita.ID_Cita,
             'title': f"{cita.Paciente} con {cita.Medico}",
             'start': f"{cita.Fecha}T{cita.Hora}",
-            'end': f"{cita.Fecha}T{cita.Hora}",  # Si quieres que tenga una duración específica, modifica esto
+            'end': f"{cita.Fecha}T{cita.Hora}",
             'description': cita.Motivo,
             'estado': cita.Estado,
-        }
-        eventos.append(evento)
-
-    # Respondemos con los datos de las citas en formato JSON
+        })
     return JsonResponse(eventos, safe=False)
 

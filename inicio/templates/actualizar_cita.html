@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head> 
+    <title>Edición de Cita</title>
+    {% load static %} 
+    <link rel="stylesheet" href="{% static 'citas/style.css' %}">
+  </head>  
+  <body>
+    <div class="EditarCita">
+        <form method="POST">
+            {% csrf_token %}
+            <table class="edicion">
+                <thead>
+                    <th>
+                        <h1>Editar Cita</h1>
+                    </th>
+                </thead>
+
+                <tr>
+                    <td>
+
+                        <label>Paciente:</label>
+                        <select name="paciente">
+                            {% for p in pacientes %}
+                                <option value="{{ p.ID_Paciente }}" {% if p.id == cita.paciente.id %}selected{% endif %}>
+                                    {{ p.Nombre }} {{ p.Apellido }}
+                                </option>
+                            {% endfor %}
+                        </select><br>
+                        <label>Médico:</label>
+                <select name="medico">
+                    {% for m in medicos %}
+                        <option value="{{ m.ID_Medico }}">{{ m.Nombre }} {{ m.Apellido }}</option>
+                    {% endfor %}
+                </select><br>
+
+                        <label>Fecha:</label>
+                        <input type="date" name="fecha" value="{{ cita.fecha|date:'Y-m-d' }}"><br>
+
+                        <label>Hora:</label>
+                        <input type="time" name="hora" value="{{ cita.hora|time:'H:i' }}"><br>
+
+                        <label>Motivo:</label>
+                        <input type="text" name="motivo" value="{{ cita.motivo }}"><br>
+
+                        <div class="botones">
+                            <button type="submit">Guardar</button>
+                            <a class="regresar" href="{% url 'Principal' %}">volver</a>
+                        </div>
+
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+  </body>
+</html>
+

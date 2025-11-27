@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head> 
+    <title>Creación de Cita</title>
+    {% load static %} 
+    <link rel="stylesheet" href="{% static 'citas/style.css' %}">
+  </head>  
+  <body>
+    <div class="CreacionCita">
+      <form method="POST">
+          {% csrf_token %}
+          <table class="creacion">
+            <thead>
+                <th>
+                    <h1>Crear Cita</h1>
+                </th>
+            </thead>
+
+            <tr>
+              <td>
+
+                <label>Paciente:</label>
+                <select name="paciente">
+                    {% for p in pacientes %}
+                        <option value="{{ p.ID_Paciente }}">{{ p.Nombre }} {{ p.Apellido }}</option>
+                    {% endfor %}
+                </select><br>
+
+                <label>Médico:</label>
+                <select name="medico">
+                    {% for m in medicos %}
+                        <option value="{{ m.ID_Medico }}">{{ m.Nombre }} {{ m.Apellido }}</option>
+                    {% endfor %}
+                </select><br>
+
+                <label>Fecha:</label>
+                <input type="date" name="fecha"><br>
+
+                <label>Hora:</label>
+                <input type="time" name="hora"><br>
+
+                <label>Motivo:</label>
+                <input type="text" name="motivo"><br>
+
+                <label>Estado:</label>
+                <select name="estado">
+                    <option value="Pendiente">Pendiente</option>
+                    <option value="Completada">Completada</option>
+                    <option value="Cancelada">Cancelada</option>
+                </select><br>
+
+                <button type="submit">Guardar</button>
+                <a class="regresar" href="{% url 'Principal' %}">volver</a>
+
+              </td>
+            </tr>
+
+          </table>
+      </form>
+    </div>
+  </body>
+</html>
