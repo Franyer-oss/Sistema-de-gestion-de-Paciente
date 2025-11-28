@@ -26,9 +26,22 @@ def CreateMedico(request):
         especialidad = request.POST['especialidad']
         telefono = request.POST['telefono']
         correo = request.POST['correo']
-        area_id = request.POST['area']
         NombreArea =  request.POST['NombreArea']
         Descripcion =  request.POST['Descripcion']
+
+        NombreArea = request.POST.get('NombreArea')  # Nombre del área nueva (si se quiere crear una nueva)
+        Descripcion = request.POST.get('Descripcion')  # Descripción del área nueva (si se quiere crear una nueva)
+
+        if NombreArea and Descripcion:
+            # Si el usuario proporcionó un nombre y descripción, se crea una nueva área médica
+            nueva_area = Area_Medica.objects.create(
+                Nombre_Area=NombreArea,
+                Descripcion=Descripcion
+            )
+            area_id = nueva_area.ID_Area  # Asignar el ID de la nueva área creada
+        else:
+            # Si no se proporcionó nombre y descripción para un área nueva, asignar un área predeterminada
+            area_id = 1
         
         # Crear médico
         medico = Medico.objects.create(
