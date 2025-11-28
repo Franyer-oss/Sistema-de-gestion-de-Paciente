@@ -4,7 +4,7 @@ from .models import Medico, Area_Medica
 from django.contrib.auth.decorators import login_required
 
 @login_required
-def listaMedicos(request):
+def ListaMedicos(request):
     # Obtiene todos los médicos como diccionarios
     medicos = Medico.objects.select_related("Area").all()
     return render(request, "Medico.html", {
@@ -15,16 +15,20 @@ def listaArea(request):
     # Obtiene todos los médicos como diccionarios
     areas = list(Medico.objects.values())
     return JsonResponse(Area_Medica, safe=False)
+
 @login_required
 def CreateMedico(request):
     areas = Area_Medica.objects.all()  # Para mostrar las áreas médicas disponibles
+
     if request.method == 'POST':
         nombre = request.POST['nombre']
         apellido = request.POST['apellido']
         especialidad = request.POST['especialidad']
         telefono = request.POST['telefono']
         correo = request.POST['correo']
-        area_id = request.POST['area']  # El ID del área seleccionada
+        area_id = request.POST['area']
+        NombreArea =  request.POST['NombreArea']
+        Descripcion =  request.POST['Descripcion']
         
         # Crear médico
         medico = Medico.objects.create(
@@ -34,6 +38,12 @@ def CreateMedico(request):
             Telefono=telefono,
             Correo=correo,
             Area_id=area_id
+        )
+
+        
+        areamedica= Area_Medica.objects.create(
+            Nombre_Area = NombreArea,
+            Descripcion = Descripcion
         )
         return redirect('ListaMedicos')  # Redirige al listado de médicos
     return render(request, 'CrearMedico.html', {'areas': areas})
@@ -66,4 +76,4 @@ def EditMedico(request, id):
 def DeleteMedico(request, id):
     pacientes=get_object_or_404(Medico, ID_Medico = id)
     pacientes.delete()
-    return redirect(listaMedicos)
+    return redirect('ListaMedicos')

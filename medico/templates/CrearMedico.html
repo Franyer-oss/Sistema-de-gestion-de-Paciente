@@ -47,6 +47,10 @@
                         {% endfor %}
                     </select>
                 </td>
+                <td><label>Crear Área Medica:</label></td>
+                <td><input type="text" name="NombreArea" required></td>
+                <td><label>Descripció Área Medica:</label></td>
+                <td><input type="text" name="Descripcion" ></td>
             </tr>
 
             <tr>
@@ -54,7 +58,7 @@
             </tr>
           </table>
       </form>
-      <a href="{% url 'listaMedicos' %}">Volver</a>
+      <a href="{% url 'ListaMedicos' %}">Volver</a>
     </div>
   </body>
 </html>

@@ -36,7 +36,7 @@ def crear_hospitalizacion(request):
 
 @login_required
 def actualizar_hospitalizacion(request, id):
-    hospitalizacion = get_object_or_404(Hospitalizacion, id=id)
+    hospitalizacion = get_object_or_404(Hospitalizacion, ID_Hospitalizacion=id)
     
     if request.method == 'POST':
         paciente_id = request.POST.get('paciente')
@@ -61,7 +61,7 @@ def actualizar_hospitalizacion(request, id):
 
 @login_required
 def eliminar_hospitalizacion(request, id):
-    hospitalizacion = get_object_or_404(Hospitalizacion, id=id)
+    hospitalizacion = get_object_or_404(Hospitalizacion, ID_Hospitalizacion=id)
     hospitalizacion.delete()
     messages.success(request, 'Hospitalización eliminada con éxito.')
     return redirect('lista_hospitalizaciones')

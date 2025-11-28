@@ -15,14 +15,13 @@
         <aside class="cuadro">
             <nav>
                 <img src="{% static 'inicio/imagenes/Logo.png' %}" alt="Logo Buena Salud">
-                <ul>
-                    <li><a class="button sidebar-btn" href="{% url 'Principal' %}"><i class="fi fi-ss-home"></i>  Panel de Control</a></li>
+                <li><a class="button sidebar-btn" href="{% url 'Principal' %}"><i class="fi fi-ss-home"></i>  Panel de Control</a></li>
                     <li><a class="button sidebar-btn" href="{% url 'ListaPaciente' %}"><i class="fi fi-ss-user"></i>   Pacientes</a></li>
-                    <li><a class="button sidebar-btn" href="{% url 'listaMedicos' %}"><i class="fi fi-ss-user-md"></i>  Doctores</a></li>
+                    <li><a class="button sidebar-btn" href="{% url 'ListaMedicos' %}"><i class="fi fi-ss-user-md"></i>  Doctores</a></li>
                     <li><a class="button sidebar-btn" href="{% url 'ListaCitas' %}"><i class="fi fi-ss-calendar"></i>  Citas</a></li>
                     <li><a class="button sidebar-btn" href="{% url 'ListaHistorial' %}"><i class="fi fi-ss-hospital"></i>  Historias Clínicas</a></li>
-                    <li><a class="button sidebar-btn" href="#"><i class="fi fi-ss-ambulance"></i>  Hospitalizaciones</a></li>
-                    <li><a class="button sidebar-btn" href="#"><i class="fi fi-ss-file-invoice-dollar"></i>  Facturación</a></li>
+                    <li><a class="button sidebar-btn" href="{% url 'lista_hospitalizaciones' %}"><i class="fi fi-ss-ambulance"></i>  Hospitalizaciones</a></li>
+                    <li><a class="button sidebar-btn" href="{% url 'lista_facturas' %}"><i class="fi fi-ss-file-invoice-dollar"></i>  Facturación</a></li>
                 </ul>
             </nav>
         </aside>
